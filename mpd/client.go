@@ -506,7 +506,7 @@ func (c *Client) ListAllInfo(uri string) ([]Attrs, error) {
 // belong to an artist and belong to the album by searching:
 // `find artist "<Artist>" album "<Album>"`
 func (c *Client) Find(uri string) ([]Attrs, error) {
-	id, err := c.cmd("find " + quote(uri))
+	id, err := c.cmd("find " + uri)
 	if err != nil {
 		return nil, err
 	}
@@ -520,7 +520,7 @@ func (c *Client) Find(uri string) ([]Attrs, error) {
 // `artist` for your search, or something like `artist album <Album Name>` if
 // you want the artist that has an album with a specified album name.
 func (c *Client) List(uri string) ([]string, error) {
-	id, err := c.cmd("list " + quote(uri))
+	id, err := c.cmd("list " + uri)
 	if err != nil {
 		return nil, err
 	}
