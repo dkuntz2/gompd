@@ -504,9 +504,23 @@ func (c *Client) ListAllInfo(uri string) ([]Attrs, error) {
 
 // Find returns attributes for songs in the library. You can find songs that
 // belong to an artist and belong to the album by searching:
-// `find artist "<Artist>" album "<Album>"`
+// `find artist "<Artist>" album "<Album>"` Find is case sensitive.
 func (c *Client) Find(uri string) ([]Attrs, error) {
 	id, err := c.cmd("find " + uri)
+	if err != nil {
+		return nil, err
+	}
+	c.text.StartResponse(id)
+	defer c.text.EndResponse(id)
+
+	return c.readAttrsList("file")
+}
+
+// Search returns attributes for songs in the library. You can find songs that
+// belong to an artist and belong to the album by searching:
+// `search artist "<Artist>" album "<Album>"` Search is not case sensitive.
+func (c *Client) Search(uri string) ([]Attrs, error) {
+	id, err := c.cmd("search " + uri)
 	if err != nil {
 		return nil, err
 	}
